@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css')}}">
+    <title>login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col s6 l6 with-header register">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Register</span>
+                        {% with messages = get_flashed_messages(category_filter=["register"]) %}
+                            
+                            <form action="/register" method="post">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="first_name" name="first_name" type="text" class="validate">
+                                    <label for="first_name">First Name</label>
+                                    {% if messages %}
+                                        {{messages[0].first_name}}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="last_name" type="text" name="last_name" class="validate">
+                                    <label for="last_name">Last Name</label>
+                                </div>
+                                {% if messages %}
+                                    {{messages[0].last_name}}
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="rpassword" type="password" name="password" class="validate">
+                                    <label for="rpassword">Password</label>
+                                </div>
+                                {% if messages %}
+                                    {{messages[0].password}}
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="confirm-password" type="password" name="cpassword" class="validate">
+                                    <label for="confirm-password">Confirm Password</label>
+                                </div>
+                                {% if messages %}
+                                    {{messages[0].cpassword}}
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="remail" type="email" name="email" class="validate">
+                                    <label for="remail">Email</label>
+                                </div>
+                                {% if messages %}
+                                    {{messages[0].email}}
+                                {% endif %}
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light" type="submit" name="rsubmit">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="login col s6 with-header">
+                {% with messages = get_flashed_messages(category_filter=["login"]) %}
+                <form action="/login" method="post">
+                    <div class="row">
+                        <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                            <span class="card-title">Login</span>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="email" type="email" name="email" class="validate">
+                                    <label for="email">Email</label>
+                                </div>
+                                {% if messages %}
+                                    {{messages[0].email}}
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="password" type="password" name="password" class="validate">
+                                    <label for="password">Password</label>
+                                </div>
+                                {% if messages %}
+                                    {{messages[0].password}}
+                                {% endif %}
+                            </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light" type="submit" name="lsubmit">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    {% if messages %}
+                        {% if 'database_error' in messages[0].keys() %}
+                            {{messages[0]}}
+                        {% endif %}
+                        {% if 'login_error' in messages[0].keys() %}
+                            {{messages[0].login_error}}
+                        {% endif %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
