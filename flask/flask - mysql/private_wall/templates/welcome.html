@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css')}}">
+    <title>welcome</title>
+</head>
+<body>
+    <nav class="navbar has-background-grey-lighter" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://bulma.io">
+            <img src="https://the-winston-project.imgix.net/610beec5aea874132acbafda/26_codingdojo-logo.png?ixlib=vue-2.9.0" width="112" height="50">
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+          <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="title is-3">
+                    Welcome, {{current_user.first_name.capitalize()}}!
+                </div>
+            </div>
+            <div class="navbar-item">
+              <div class="buttons">
+                <a href="/logout" class="button is-light">
+                    Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </nav>
+    <div class="tile is-ancestor p-6 is-justify-content-space-between is-12">
+        <div class="tile is-5">
+            <div class="block">
+                <div class="title is-5 ">
+                   {{all_recieved_messages|length}} <span class="field is-underlined">Message(s) for You</span>
+                </div>
+                {%for message in all_recieved_messages %}
+                <form class="message" action="/deletemessage/{{message['messages.id']}}" method="get">
+                    <div class="notification m-0 p-0">
+                        <button class="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        <div class="label">
+                            {{message.first_name}} said (<span class="has-text-link-dark">{{ message['created_at'] | datetimecompare }} hours ago</span>):
+                        </div>
+                        <div class="field">
+                            "{{message.content}}"
+                        </div>
+                    </div>
+                </form>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="tile is-5">
+            <div class="block">
+                <div class="block">
+                   <span class="title is-5 field is-underlined">Send Messages</span>
+                   <p class="has-text-success">You have send {{all_sent_messages|length}} messages so far:</p>
+                </div>
+                {%for user in all_users %}
+                <form class="columns" action="/sendmessage/{{user.id}}" method="post">
+                    <figure class="column is-3">
+                        <p class="label">
+                            {{user.first_name.capitalize()}}
+                        </p>
+                    </figure>
+                    <div class="column is-7">
+                        <div class="field">
+                            <p class="control">
+                                <textarea name="message" class="textarea has-fixed-size" rows="2" placeholder="Add a comment..."></textarea>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <div class="buttons">
+                            <button class="button" style="width:80px;">Send</button>
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
