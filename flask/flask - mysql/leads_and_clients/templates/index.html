@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css')}}">
+    <title>welcome</title>
+    <script>
+        arrOfData = {{ all_customers | tojson }}
+        window.onload = function() {
+        
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            exportEnabled: true,
+            animationEnabled: true,
+            title: {
+                text: "Desktop Browser Market Share in 2016"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 25,
+                toolTipContent: "<b>{customer_name}</b>: {y}%",
+                showInLegend: "true",
+                legendText: "{customer_name}",
+                indexLabelFontSize: 16,
+                indexLabel: "{customer_name} - {y}",
+                dataPoints: arrOfData
+            }]
+        });
+        chart.render();
+        console.log( chart)
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar has-background-grey-lighter" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <p class="title"> Report Dashboard </p>
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+    </nav>
+
+    <div class="block">
+        <form class="columns is-mobile pt-5" action="/betweendates" method="post">
+            <div class="column is-two-thirds">
+            </div>
+            <div class="column  is-narrow ">
+                <p class="control">
+                    <input type="date" value="2018-01-01" id="start_date" name="start_date">
+                    <input type="date" value="2018-12-12" id="end_date" name="end_date">
+                </p>
+            </div>
+            <div class="column  is-narrow ">
+                <div class="buttons">
+                    <button class="button" style="width:80px;">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="block mx-auto mb-6" style="width:400px;">
+        <form class="message" action="/deletemessage/" method="get">
+            <div class="notification m-0 p-0">
+                <button class="delete"></button>
+            </div>
+            <div class="message-body">
+                <div class="subtitle is-underlined">
+                    List of all customers and # of leads
+                </div>
+                <div class="columns is-centered">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><abbr title="Position">Customer Name</abbr></th>
+                                <th>Number of Leads</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in all_customers %}
+                            <tr>
+                                <th>{{customer['customer_name']}}</th>
+                                <td>
+                                    <a href="#" title="number of leads is {{customer['y']}}">{{customer['y']}}</a>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+</body>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</html>
