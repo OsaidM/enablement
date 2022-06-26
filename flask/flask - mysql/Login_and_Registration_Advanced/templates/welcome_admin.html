@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css')}}">
+    <title>welcome</title>
+</head>
+<body>
+    
+    <!-- <div class="row">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">Welcome {{result.first_name}}  {{result.last_name}}</span>
+                <p>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {{messages[0]}}
+                        {% endif %}
+                    {%endwith%}
+                </p>
+            </div>
+            <div class="card-action">
+                <a href="/logout" class="waves-effect waves-light btn">Logout</a>
+            </div>
+          </div>
+        </div>
+    </div> -->
+    
+      <nav class="navbar has-background-primary-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <p class="title has-text-primary-light">
+                Advanced Login - 
+                {% if result.user_level == 9%}
+                    Admin Page 
+                {%endif%}
+                {% if result.user_level == 1%}
+                    Normal User Page 
+                {%endif%}
+            </p>
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-text-primary-light">
+                    Welcome {{result.first_name}}  {{result.last_name}}
+                </div>
+                <div class="navbar-item">
+                <div class="buttons">
+                    <a href="/logout" class="button is-danger">
+                        Log OUT
+                    </a>
+                </div>
+                </div>
+          </div>
+        </div>
+      </nav>
+
+
+    <div class="block mx-auto my-6" style="width:715px;">
+        <form class="message" action="/deletemessage/" method="get">
+            <div class="notification m-0 p-0">
+                <button class="delete"></button>
+            </div>
+            <div class="message-body">
+                <div class="columns is-centered">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><abbr title="Position">Id</abbr></th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in all_users %}
+                            <tr>
+                                <th>{{user['id']}}</th>
+                                <th>{{user['first_name']}} {{user['last_name']}}</th>
+                                <th>{{user['email']}}</th>
+                                <th>{{user['status']}}</th>
+                                <td>
+                                    <a href="/remove-user/{{user['id']}}" class="button is-danger" title="Remove">Remove</a>
+                                    {% if user.user_level == 1%}
+                                    <a href="/make-admin/{{user['id']}}" class="button is-primary" title="Make Admin">Make Admin</a>
+                                    {% elif user.user_level==9%}
+                                    <a href="/remove-admin-access/{{user['id']}}" class="button is-danger" title="Remove Admin Access">Remove Admin Access</a>
+                                    {%endif%}
+                                </td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+      
+      
+      
+      <p>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {{messages[0]}}
+            {% endif %}
+        {%endwith%}
+    </p>
+</body>
+</html>
