@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'books_app/style.css' %}">
+</head>
+<body>
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">Welcome {{request.session.user}}</a>
+          <form action="http://localhost:8000" class="d-flex justify-content-between align-items-center" role="logout">
+            <a class="mx-5" href="http://localhost:8000/books/add">Add Book and Review</a>
+            <button class="btn btn-outline-danger" type="submit">Log Out</button>
+          </form>
+        </div>
+        <hr class="my-4">
+    </nav>
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <div class="col all-books">
+                <h6>Recent Book Reviews</h6>
+                {% for review in recent_reviews%}
+                <div class="card m-2">
+                    <div class="card-header">
+                        <a href="books/{{review.book.id}}"><h4>{{review.book.title}}</h4></a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="blockquote-footer">Rating 
+                            {% with ''|center:review.rating as range %}
+                                {% for _ in range %}
+                                    <i class="fa fa-star"></i>
+                                {% endfor %}
+                            {% endwith %}
+                        </h6>
+                        <div class="blockquote">
+                            <p>{{review.content}}</p>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <h6 class="blockquote-footer">(Posted on {{review.created_at}})</h6>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="col-3 your-books">
+                <h6>Other Books with reviews</h6>
+                {% for book in other_books%}
+                    {%if book.reviews.count > 0%}
+                    <a href="books/{{book.id}}"><h4>{{book.title}}</h4></a>
+                    {%endif%}
+                {%endfor%}
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

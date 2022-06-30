@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Books_ID</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'books_app/style.css' %}">
+</head>
+<body>
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">Welcome {{request.session.user}}</a>
+          <form action="http://localhost:8000" class="d-flex justify-content-between align-items-center" role="logout">
+            <a class="mx-5" href="/books">Home</a>
+            <button class="btn btn-outline-danger" type="submit">Log Out</button>
+          </form>
+        </div>
+        <hr class="my-4">
+    </nav>
+    <div class="container d-flex">
+        <div class="col">
+            <div class="container">
+                <div class="book-info w-75">
+                    <div class="title">User Alias: {{thisuser.first_name}}</div>
+                    <div class="reviews">
+                        <h6>Reviews:</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Name: {{thisuser.first_name}} {{thisuser.last_name}}</li>
+                            <li class="list-group-item">Email: {{thisuser.email}}</li>
+                            <li class="list-group-item">Total Reviews: {{userreviews.count}}</li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <div class="posted-reviews">
+                        <h6>Posted Reviews on the following books</h6>
+                        <ul class="list-group list-group-flush">
+                            {%for review in userreviews%}
+                            <li class="list-group-item"><a href="/books/{{review.book.id}}">{{review.book.title}}</a></li>
+                            {%endfor%}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

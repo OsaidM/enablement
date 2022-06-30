@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'books_app/style.css' %}">
+    <title>add book</title>
+</head>
+<body>
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand"></a>
+          <form action="http://localhost:8000" class="d-flex justify-content-between align-items-center" role="logout">
+            <a class="mx-5" href="/books">Home</a>
+            <button class="btn btn-outline-danger" type="submit">Log Out</button>
+          </form>
+        </div>
+        <hr class="my-4">
+    </nav>
+    <div class="container" style="max-width: 600px;">
+        <form action="/books/create" method="POST" class="card shadow-sm p-3 mb-5 bg-body rounded" >
+            {%csrf_token%}
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        Book Title
+                    </div>
+                    <div class="col">
+                        <input type="text" name="title" class="form-control" id="book-title" placeholder="Book Title">
+                    </div>
+                </div>
+                <div class="row">
+                    <strong>Author:</strong>
+                    <div class="row m-2">
+                        <div class="col d-flex">
+                            <label for="floatingInput">choose from the list:</label>
+                            <select class="form-select" id="author_select" name="author_select" aria-label="Default select example">
+                                {%for author in all_authors%}
+                                    <option value="{{author.id}}">{{author.author_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col d-flex">
+                            <label for="floatingInput" style="width: 50%;">Or add a new author:</label>
+                            <input type="text" id="add_author" class="form-control" placeholder="add new author">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating my-3">
+                    <textarea class="form-control" name="content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <label for="floatingTextarea2">Review</label>
+                </div>
+                <div class="row p-2 align-items-center">
+                    <div class="col-2">
+                        Rating:
+                    </div>
+                    <div class="col-2">
+                        <input type="number" min="0" max="5" name="rating" class="form-control p-1" id="formGroupExampleInput" placeholder="0">
+                    </div>
+                    <div class="col">stars.</div>
+                </div>
+                <div class="row p-2 align-items-center">
+                    <div class="col offset-md-7">
+                        <button type="submit" class="btn btn-primary">Add Book and Review</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        author_select = document.getElementById("author_select");
+        // console.log(author_select.innerText )
+        add_author = document.getElementById("add_author");
+        add_author.addEventListener('change',(e)=>{
+            console.log(add_author.value)
+            if(add_author.value.length > 0){
+                author_select.removeAttribute("name")
+                author_select.setAttribute("disabled", "true");
+                add_author.setAttribute("name", "add_author")
+            }else{
+                author_select.removeAttribute("disabled", "true");
+                author_select.setAttribute("name", "author_select");
+                add_author.removeAttribute("name", "add_author")
+            }
+        })
+    
+    </script>
+</body>
+</html>

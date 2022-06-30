@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'books_app/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="title-block">
+            <h1>Welcome {{request.session.user}}</h1>
+            <a class="return" href="http://localhost:8000">Log Out</a>
+            <a class="booklist" href="/books">Back to Booklist</a>
+            <hr class="my-4">
+        </div>
+        <div class="addABook">
+            <h1>Edit Favorite Book</h1>
+            <form action="/books/{{thisbook.id}}/update" method='POST'>
+                {% csrf_token%}
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" class="form-control col-9" name="title" value="{{thisbook.title}}">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea name="description" class="form-control"cols="30" rows="4">{{thisbook.description}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-info">Update</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
