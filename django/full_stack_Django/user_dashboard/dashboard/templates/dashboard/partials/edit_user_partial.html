@@ -1,0 +1,61 @@
+{%block 'edit_user_partial' %}
+<h4 class="container mt-2 w-75">Edit Information</h4>
+    <div class="container p-3 w-75 d-flex justify-content-between">
+      <form action="/edit/user/information/{{user.id}}" method="POST" class="col col-lg-5 p-4 p-lg-4 border rounded-3 bg-light">
+        <h4 class="col">Edit Information</h4>
+        {%csrf_token%}
+        <div class="row">
+          <label for="inputEmail4" class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" value="{{user.email}}" id="inputEmail4">
+        </div>
+        <div class="row">
+          <label for="firstname" class="form-label">First Name</label>
+          <input type="text" name="first_name" value="{{user.first_name}}" class="form-control" id="firstname">
+        </div>
+        <div class="row">
+          <label for="lastname" class="form-label">Last Name</label>
+          <input type="text" name="last_name" value="{{user.last_name}}" class="form-control" id="lastname">
+        </div>
+        <div class="row mt-2">
+          <div class="col d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </form>
+      
+        <div  class="col h-75 col-lg-5 p-4 p-lg-4 border rounded-3 bg-light">
+          <form class="row" action="/edit/user/information/{{user.id}}" method="POST">
+            <h4 >Change Password</h4>
+            {%csrf_token%}
+            <div class="row">
+              <label for="inputPassword4" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" id="inputPassword4">
+            </div>
+            <div class="row">
+              <label for="cPassword4" class="form-label">Confirm Password</label>
+              <input type="password" name="confirm_password" class="form-control" id="cPassword4">
+            </div>
+            <div class="row mt-2">
+              <div class="col d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Update Password</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="container my-2 w-75 border p-2">
+        <form action="/edit/user/information/{{user.id}}" method="POST" class="container">
+          {%csrf_token%}
+          <div class="row form-floating">
+            <textarea class="form-control" name="description" id="floatingTextarea2" style="height: 100px">{{user.decription}}</textarea>
+            <label for="floatingTextarea2">Edit Description</label>
+          </div>
+          <div class="row my-2">
+            <div class="col d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+    </div>
+{%endblock%}
