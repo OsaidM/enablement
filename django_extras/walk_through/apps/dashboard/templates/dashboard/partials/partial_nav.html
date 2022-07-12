@@ -1,0 +1,22 @@
+{%block navbar%}
+<nav class="navbar border bg-secondary bg-gradient bg-opacity-50">
+    <div class="container-fluid w-75">
+        <ul class="nav">
+          <a href="/" class="navbar-brand">Test App</a>
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link active" aria-current="page">Home</a>
+            </li>
+        </ul>
+      {%if 'user_id' in request.session.keys %}
+      <form action="logout" class="d-flex">
+        <button class="btn btn-outline-danger" type="submit">Log off</button>
+      </form>
+      {%else%}
+      <form action="signin" method="get" class="d-flex">
+        <button class="btn btn-primary" type="submit">Sign in</button>
+      </form>
+      {%endif%}
+
+    </div>
+</nav>
+{%endblock%}
